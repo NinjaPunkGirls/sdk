@@ -2,6 +2,7 @@ package npgsdk
 
 import "log"
 
+// WalletBalanceSTAS gives you the stas tokens in a slice
 func (sdk *SDK) WalletBalanceSTAS(walletID, symbol string) ([]map[string]interface{}, error) {
 
 	response, err := sdk.Relysia.Balance(walletID, "STAS", "")

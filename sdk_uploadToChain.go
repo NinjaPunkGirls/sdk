@@ -10,6 +10,7 @@ import (
 	"github.com/kr/pretty"
 )
 
+// UploadToChain makes the given file available on the blockchain via the cloud storage
 func (sdk *SDK) UploadToChain(walletID, bucketName, filename string, objectBytes []byte) (*relysia.UploadResponse, error) {
 
 	ctx := context.Background()

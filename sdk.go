@@ -13,6 +13,7 @@ import (
 	"github.com/golangdaddy/relysia-client"
 )
 
+// InitSDK constructs the context for the user's interactions
 func InitSDK(gcpProjectID, authToken string) *SDK {
 
 	ctx := context.Background()

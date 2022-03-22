@@ -4,6 +4,7 @@ import (
 	"github.com/golangdaddy/relysia-client"
 )
 
+// BuildTokenRequest is a helper constructor for valid input to the Issue endpoint
 func BuildTokenRequest(name, description, image, symbol string, supply int) *relysia.IssueRequest {
 	issueRequest := relysia.DemoTokenRequest()
 	issueRequest.Splitable = false
