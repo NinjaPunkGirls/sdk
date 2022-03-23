@@ -1,6 +1,21 @@
 package npgsdk
 
-import "log"
+import (
+	"log"
+
+	"github.com/golangdaddy/relysia-client"
+)
+
+// WalletBalanceBSV gives you the BSV balance
+func (sdk *SDK) WalletBalanceBSV(walletID, symbol string) (*relysia.BalanceResponse, error) {
+
+	response, err := sdk.Relysia.Balance(walletID, "BSV", "")
+	if err != nil {
+		return nil, err
+	}
+
+	return response, nil
+}
 
 // WalletBalanceSTAS gives you the stas tokens in a slice
 func (sdk *SDK) WalletBalanceSTAS(walletID, symbol string) ([]map[string]interface{}, error) {
