@@ -1,6 +1,7 @@
 package npgsdk
 
 import (
+	"fmt"
 	"log"
 
 	"github.com/golangdaddy/relysia-client"
@@ -31,7 +32,7 @@ func (sdk *SDK) WalletBalanceSTAS(walletID, symbol string) ([]map[string]interfa
 
 			tokenInfo, err := sdk.Relysia.GetToken(coin.ID())
 			if err != nil {
-				log.Println(err)
+				log.Println(fmt.Errorf("GetToken: %w", err))
 				continue
 			}
 
