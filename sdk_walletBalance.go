@@ -5,6 +5,7 @@ import (
 	"log"
 
 	"github.com/golangdaddy/relysia-client"
+	"github.com/kr/pretty"
 )
 
 // WalletBalanceBSV gives you the BSV balance
@@ -25,6 +26,8 @@ func (sdk *SDK) WalletBalanceSTAS(walletID, symbol string) ([]map[string]interfa
 	if err != nil {
 		return nil, err
 	}
+
+	pretty.Println(response)
 
 	output := []map[string]interface{}{}
 	for _, coin := range response.Coins {
