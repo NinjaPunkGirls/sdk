@@ -28,7 +28,7 @@ func (sdk *SDK) WalletBalanceSTAS(walletID, symbol string) ([]map[string]interfa
 
 	output := []map[string]interface{}{}
 	for _, coin := range response.Coins {
-		if coin.Symbol == symbol {
+		if coin.Symbol == symbol+"M" {
 
 			tokenInfo, err := sdk.Relysia.GetToken(coin.ID())
 			if err != nil {
