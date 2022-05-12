@@ -41,9 +41,14 @@ func InitSDK(gcpProjectID, authToken string) *SDK {
 }
 
 type SDK struct {
-	Relysia *relysia.Client
-	Storage *storage.Client
-	//	firestoreClient *firestore.Client
+	Relysia      *relysia.Client
+	Storage      *storage.Client
+	insecureMode bool
+}
+
+func (self *SDK) Insecure() {
+	self.insecureMode = true
+	self.Relysia.Insecure()
 }
 
 func (sdk *SDK) HashSHA1(b []byte) []byte {
