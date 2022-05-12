@@ -44,19 +44,22 @@ func NewApp(projectID string) *App {
 		log.Fatalln(err)
 	}
 
-	// setup CBOR encoder
+	app := &App{
+		Storage:   storageClient,
+		Firestore: firestoreClient,
+	}
+	app.UseCBOR()
+
+	return app
+}
+
+func (app *App) UseCBOR() {
+	// setup CBOR encoer
 	cb, err := cbor.CanonicalEncOptions().EncMode()
 	if err != nil {
 		log.Fatalln(err)
 	}
-
-	app := &App{
-		Storage:   storageClient,
-		Firestore: firestoreClient,
-		cbor:      cb,
-	}
-
-	return app
+	app.cbor = cb
 }
 
 func (app *App) Close() {

@@ -6,17 +6,18 @@ require (
 	cloud.google.com/go/firestore v1.6.1
 	cloud.google.com/go/storage v1.21.0
 	firebase.google.com/go v3.13.0+incompatible
+	github.com/fxamacker/cbor/v2 v2.4.0
 	github.com/gin-gonic/gin v1.7.7
 	github.com/golangdaddy/relysia-client v0.0.0-20220323105644-9bffb784370e
 	github.com/kr/pretty v0.3.0
+	github.com/stretchr/testify v1.7.0
 )
 
 require (
 	cloud.google.com/go v0.100.2 // indirect
 	cloud.google.com/go/compute v1.5.0 // indirect
 	cloud.google.com/go/iam v0.1.1 // indirect
-	github.com/fxamacker/cbor v1.5.1 // indirect
-	github.com/fxamacker/cbor/v2 v2.4.0 // indirect
+	github.com/davecgh/go-spew v1.1.1 // indirect
 	github.com/gin-contrib/sse v0.1.0 // indirect
 	github.com/go-playground/locales v0.13.0 // indirect
 	github.com/go-playground/universal-translator v0.17.0 // indirect
@@ -31,6 +32,7 @@ require (
 	github.com/mattn/go-isatty v0.0.12 // indirect
 	github.com/modern-go/concurrent v0.0.0-20180228061459-e0a39a4cb421 // indirect
 	github.com/modern-go/reflect2 v0.0.0-20180701023420-4b7aa43c6742 // indirect
+	github.com/pmezard/go-difflib v1.0.0 // indirect
 	github.com/rogpeppe/go-internal v1.8.1 // indirect
 	github.com/ugorji/go/codec v1.1.7 // indirect
 	github.com/x448/float16 v0.8.4 // indirect
@@ -47,4 +49,5 @@ require (
 	google.golang.org/grpc v1.45.0 // indirect
 	google.golang.org/protobuf v1.27.1 // indirect
 	gopkg.in/yaml.v2 v2.2.8 // indirect
+	gopkg.in/yaml.v3 v3.0.0-20200313102051-9f266ea9e77c // indirect
 )
