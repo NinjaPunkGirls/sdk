@@ -2,7 +2,10 @@ package common
 
 import (
 	"context"
+	"encoding/hex"
 	"log"
+	"os"
+	"time"
 
 	"cloud.google.com/go/firestore"
 	"firebase.google.com/go/storage"
@@ -51,6 +54,14 @@ func NewApp(projectID string) *App {
 	app.UseCBOR()
 
 	return app
+}
+
+func (app *App) TimeNow() time.Time {
+	return time.Now().UTC()
+}
+
+func (app *App) SeedDigest(input string) string {
+	return hex.EncodeToString(app.SHA256([]byte(os.Getenv("SEED")), []byte(input)))
 }
 
 func (app *App) UseCBOR() {

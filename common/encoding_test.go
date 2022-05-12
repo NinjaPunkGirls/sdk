@@ -8,8 +8,9 @@ import (
 )
 
 type testStruct struct {
-	Name string `json:"name"`
-	Age  int    `json:"age"`
+	Name  string `json:"name"`
+	Age   int    `json:"age"`
+	Other string `json:"other"`
 }
 
 func TestCBOR(t *testing.T) {
