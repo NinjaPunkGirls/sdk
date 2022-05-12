@@ -1,13 +1,15 @@
 package common
 
 import (
+	"encoding/hex"
 	"github.com/stretchr/testify/assert"
+	"log"
 	"testing"
 )
 
 type testStruct struct {
-	Name string
-	Age  int
+	Name string `json:"name"`
+	Age  int    `json:"age"`
 }
 
 func TestCBOR(t *testing.T) {
@@ -27,8 +29,18 @@ func TestCBOR(t *testing.T) {
 		return
 	}
 
+	s := hex.EncodeToString(enc)
+
+	log.Println(string(enc))
+
+	d, err := hex.DecodeString(s)
+	if err != nil {
+		t.Fatal(err)
+		return
+	}
+
 	you := &testStruct{}
-	err = app.UnmarshalCBOR(enc, you)
+	err = app.UnmarshalCBOR(d, you)
 	if err != nil {
 		t.Fatal(err)
 		return
