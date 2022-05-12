@@ -1,6 +1,7 @@
 package common
 
 import (
+	"bytes"
 	"encoding/ascii85"
 
 	"github.com/fxamacker/cbor/v2"
@@ -19,7 +20,9 @@ func (app *App) CompactSerial(x interface{}) (string, error) {
 	if err != nil {
 		return "", nil
 	}
-	dst := make([]byte, len(b))
-	n := ascii85.Encode(dst, b)
-	return string(dst[:n]), nil
+	buf := bytes.NewBuffer(nil)
+	enc := ascii85.NewEncoder(buf)
+	enc.Write(b)
+	enc.Close()
+	return string(buf.Bytes()), nil
 }
