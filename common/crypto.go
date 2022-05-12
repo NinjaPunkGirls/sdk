@@ -7,9 +7,16 @@ import (
 	"crypto/rand"
 	"crypto/sha1"
 	"crypto/sha256"
+	"encoding/hex"
 	"fmt"
 	"io"
 )
+
+func (api *App) Token256() string {
+	b := make([]byte, 32)
+	rand.Read(b)
+	return hex.EncodeToString(b)
+}
 
 func (app *App) SHA1(b []byte) []byte {
 	h := sha1.New()
