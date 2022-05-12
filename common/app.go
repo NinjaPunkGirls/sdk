@@ -8,6 +8,7 @@ import (
 	"firebase.google.com/go/storage"
 
 	firebase "firebase.google.com/go"
+	"github.com/fxamacker/cbor/v2"
 	"github.com/gin-gonic/gin"
 )
 
@@ -20,6 +21,7 @@ type Route struct {
 type App struct {
 	Storage   *storage.Client
 	Firestore *firestore.Client
+	cbor      cbor.EncMode
 	routes    []Route
 }
 
@@ -42,9 +44,16 @@ func NewApp(projectID string) *App {
 		log.Fatalln(err)
 	}
 
+	// setup CBOR encoder
+	cb, err := cbor.CanonicalEncOptions().EncMode()
+	if err != nil {
+		log.Fatalln(err)
+	}
+
 	app := &App{
 		Storage:   storageClient,
 		Firestore: firestoreClient,
+		cbor:      cb,
 	}
 
 	return app
