@@ -7,6 +7,7 @@ import (
 	"io"
 	"log"
 	"net/http"
+	"os"
 
 	firebase "firebase.google.com/go"
 	"firebase.google.com/go/storage"
@@ -28,7 +29,7 @@ func InitSDK(gcpProjectID, authToken string) *SDK {
 	}
 
 	return &SDK{
-		Relysia: relysia.NewClient().WithToken(authToken),
+		Relysia: relysia.NewClient().WithToken(authToken).WithService(os.Getenv("SERVICEID")),
 		Storage: storageClient,
 	}
 }
