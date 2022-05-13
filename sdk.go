@@ -22,13 +22,6 @@ func InitSDK(gcpProjectID, authToken string) *SDK {
 	if err != nil {
 		log.Fatalln(err)
 	}
-	/*
-		firestoreClient, err := fapp.Firestore(ctx)
-		if err != nil {
-			log.Fatalln(err)
-		}
-		defer firestoreClient.Close()
-	*/
 	storageClient, err := fapp.Storage(ctx)
 	if err != nil {
 		log.Fatalln(err)
@@ -57,38 +50,6 @@ func (sdk *SDK) HashSHA1(b []byte) []byte {
 	return h.Sum(nil)
 }
 
-/*
-func (sdk *SDK) AuthenticatedClient(c *gin.Context) (string, *relysia.Client, error) {
-	if len(c.Request.Header["Authentication"]) == 0 {
-		return "", nil, fmt.Errorf("no authentication header found")
-	}
-	token := c.Request.Header["Authentication"][0]
-	return hex.EncodeToString(sdk.Hash([]byte(token))), sdk.relysia.WithToken(token), nil
-}
-
-func (sdk *SDK) AuthenticatedUser(c *gin.Context) (*UserSession, error) {
-	ctx := context.Background()
-
-	token, relysiaClient, err := sdk.AuthenticatedClient(c)
-	if err != nil {
-		return nil, err
-	}
-
-	doc, err := sdk.firestoreClient.Collection("sessions").Doc(token).Get(ctx)
-	if err != nil {
-		return nil, err
-	}
-
-	session := &UserSession{}
-	if err := doc.DataTo(session); err != nil {
-		return nil, err
-	}
-	session.sdk = sdk
-	session.client = relysiaClient
-
-	return session, nil
-}
-*/
 func (sdk *SDK) GetHTTP(url string, dst interface{}) error {
 	resp, err := http.Get(url)
 	if err != nil {
