@@ -22,7 +22,7 @@ func (app *App) AddRoute(method, path string, handler gin.HandlerFunc) {
 }
 
 func (app *App) OptionsHandler(c *gin.Context) {
-	c.Header("Access-Control-Allow-Headers", "content-type")
+	c.Header("Access-Control-Allow-Headers", "Content-Type, Authorization")
 	c.Header("Access-Control-Allow-Origin", "*")
 	c.Header("Access-Control-Allow-Methods", "HEAD, PUT, GET, POST, DELETE")
 	if c.Request.Method == "OPTIONS" {
