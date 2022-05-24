@@ -34,9 +34,7 @@ func (app *App) Serve() error {
 	r := gin.Default()
 
 	for _, route := range app.routes {
-		if route.Method == "POST" || route.Method == "PUT" {
-			r.OPTIONS(route.Path, app.OptionsHandler)
-		}
+		r.OPTIONS(route.Path, app.OptionsHandler)
 		r.Handle(route.Method, route.Path, app.OptionsHandler, route.Handler)
 	}
 
