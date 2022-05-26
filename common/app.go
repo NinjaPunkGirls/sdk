@@ -22,6 +22,7 @@ type Route struct {
 }
 
 type App struct {
+	Gin       *gin.Engine
 	Storage   *storage.Client
 	Firestore *firestore.Client
 	cbor      cbor.EncMode
@@ -48,6 +49,7 @@ func NewApp(projectID string) *App {
 	}
 
 	app := &App{
+		Gin:       gin.Default(),
 		Storage:   storageClient,
 		Firestore: firestoreClient,
 	}

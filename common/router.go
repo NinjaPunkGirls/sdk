@@ -31,20 +31,19 @@ func (app *App) OptionsHandler(c *gin.Context) {
 }
 
 func (app *App) Serve() error {
-	r := gin.Default()
 
 	filter := map[string]bool{}
 	for _, route := range app.routes {
 		if !filter[route.Path] {
-			r.OPTIONS(route.Path, app.OptionsHandler)
+			app.Gin.OPTIONS(route.Path, app.OptionsHandler)
 			filter[route.Path] = true
 		}
-		r.Handle(route.Method, route.Path, app.OptionsHandler, route.Handler)
+		app.Gin.Handle(route.Method, route.Path, app.OptionsHandler, route.Handler)
 	}
 
 	s := &http.Server{
 		Addr:           "0.0.0.0:" + os.Getenv("PORT"),
-		Handler:        r,
+		Handler:        app.Gin,
 		ReadTimeout:    30 * time.Second,
 		WriteTimeout:   30 * time.Second,
 		MaxHeaderBytes: 1 << 20,
