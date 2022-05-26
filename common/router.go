@@ -35,6 +35,7 @@ func (app *App) Serve() error {
 	filter := map[string]bool{}
 	for _, route := range app.routes {
 		if !filter[route.Path] {
+			log.Println("adding route:", route.Method, route.Path)
 			app.Gin.OPTIONS(route.Path, app.OptionsHandler)
 			filter[route.Path] = true
 		}
