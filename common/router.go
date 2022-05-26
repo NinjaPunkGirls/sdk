@@ -39,15 +39,15 @@ func (app *App) Serve() error {
 			filter[route.Path] = true
 		}
 	}
-
+	port := os.Getenv("PORT")
 	s := &http.Server{
-		Addr:           "0.0.0.0:" + os.Getenv("PORT"),
+		Addr:           "0.0.0.0:" + port,
 		Handler:        app.Gin,
 		ReadTimeout:    30 * time.Second,
 		WriteTimeout:   30 * time.Second,
 		MaxHeaderBytes: 1 << 20,
 	}
-	log.Println("STARTING SERVER...")
+	log.Println("starting server on port:", port)
 	err := s.ListenAndServe()
 	log.Println("SERVER SHUTTING DOWN...")
 	return err
