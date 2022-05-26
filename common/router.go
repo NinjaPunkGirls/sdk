@@ -47,6 +47,7 @@ func (app *App) Serve() error {
 		WriteTimeout:   30 * time.Second,
 		MaxHeaderBytes: 1 << 20,
 	}
+	log.Println("STARTING SERVER...")
 	err := s.ListenAndServe()
 	log.Println("SERVER SHUTTING DOWN...")
 	return err
