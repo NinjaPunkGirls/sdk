@@ -15,10 +15,10 @@ func (app *App) ShowRoutes() interface{} {
 }
 
 func (app *App) AddRoute(method, path string, handler gin.HandlerFunc) {
-	app.routes = append(
-		app.routes,
-		Route{strings.ToUpper(method), path, handler},
-	)
+	route := Route{strings.ToUpper(method), path, handler}
+	app.routes = append(app.routes, route)
+	log.Println("adding route:", route.Method, route.Path)
+	app.Gin.Handle(route.Method, route.Path, app.OptionsHandler, route.Handler)
 }
 
 func (app *App) OptionsHandler(c *gin.Context) {
@@ -38,8 +38,6 @@ func (app *App) Serve() error {
 			app.Gin.OPTIONS(route.Path, app.OptionsHandler)
 			filter[route.Path] = true
 		}
-		log.Println("adding route:", route.Method, route.Path)
-		app.Gin.Handle(route.Method, route.Path, app.OptionsHandler, route.Handler)
 	}
 
 	s := &http.Server{
