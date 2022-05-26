@@ -33,8 +33,12 @@ func (app *App) OptionsHandler(c *gin.Context) {
 func (app *App) Serve() error {
 	r := gin.Default()
 
+	filter := map[string]bool{}
 	for _, route := range app.routes {
-		r.OPTIONS(route.Path, app.OptionsHandler)
+		if !filter[route.Path] {
+			r.OPTIONS(route.Path, app.OptionsHandler)
+			filter[route.Path] = true
+		}
 		r.Handle(route.Method, route.Path, app.OptionsHandler, route.Handler)
 	}
 
