@@ -20,7 +20,7 @@ func (sdk *SDK) WalletBalanceBSV(walletID, symbol string) (*relysia.BalanceRespo
 }
 
 // WalletBalanceSTAS gives you the stas tokens in a slice
-func (sdk *SDK) WalletBalanceSTAS(walletID, symbol string) ([]map[string]interface{}, error) {
+func (sdk *SDK) WalletBalanceSTAS(walletID, symbol string) ([]*relysia.BalanceCoin, error) {
 
 	response, err := sdk.Relysia.Balance(walletID, "STAS", "")
 	if err != nil {
@@ -43,5 +43,5 @@ func (sdk *SDK) WalletBalanceSTAS(walletID, symbol string) ([]map[string]interfa
 		}
 	}
 
-	return output, nil
+	return response.Coins, nil
 }
