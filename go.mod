@@ -8,7 +8,7 @@ require (
 	firebase.google.com/go v3.13.0+incompatible
 	github.com/fxamacker/cbor/v2 v2.4.0
 	github.com/gin-gonic/gin v1.7.7
-	github.com/golangdaddy/relysia-client v0.0.0-20220512212731-a372f9ad3a40
+	github.com/golangdaddy/relysia-client v0.0.0-20220608113925-59b423d0afad
 	github.com/kr/pretty v0.3.0
 	github.com/stretchr/testify v1.7.0
 )

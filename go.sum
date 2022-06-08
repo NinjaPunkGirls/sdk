@@ -149,6 +149,8 @@ github.com/golangdaddy/relysia-client v0.0.0-20220512205628-a16ef6ad134b h1:zJUS
 github.com/golangdaddy/relysia-client v0.0.0-20220512205628-a16ef6ad134b/go.mod h1:VKa5EyLDbAA9fc0iBwZlrYMTD9jM0EQ7aC729H+w0bM=
 github.com/golangdaddy/relysia-client v0.0.0-20220512212731-a372f9ad3a40 h1:G1oyrvf4intAB0MMok7KsfmuhXmq7rlzW+Nvgc1ZQTY=
 github.com/golangdaddy/relysia-client v0.0.0-20220512212731-a372f9ad3a40/go.mod h1:VKa5EyLDbAA9fc0iBwZlrYMTD9jM0EQ7aC729H+w0bM=
+github.com/golangdaddy/relysia-client v0.0.0-20220608113925-59b423d0afad h1:qlhw8alC69f9rQXgaZRUtKlgRwgMZdGEDs9PrgqoWLA=
+github.com/golangdaddy/relysia-client v0.0.0-20220608113925-59b423d0afad/go.mod h1:VKa5EyLDbAA9fc0iBwZlrYMTD9jM0EQ7aC729H+w0bM=
 github.com/google/btree v0.0.0-20180813153112-4030bb1f1f0c/go.mod h1:lNA+9X1NB3Zf8V7Ke586lFgjr2dZNuvo3lPJSGZ5JPQ=
 github.com/google/btree v1.0.0/go.mod h1:lNA+9X1NB3Zf8V7Ke586lFgjr2dZNuvo3lPJSGZ5JPQ=
 github.com/google/go-cmp v0.2.0/go.mod h1:oXzfMopK8JAjlY9xF4vHSVASa0yLyX7SntLO5aqRK0M=
