@@ -2,6 +2,7 @@ package graph
 
 import (
 	"context"
+	"fmt"
 	"log"
 
 	"google.golang.org/api/iterator"
@@ -10,9 +11,13 @@ import (
 type Node struct {
 	client *GraphClient
 	ID     string
-	Type   string
+	Class  string
 	Data   interface{}
 	Time   int64
+}
+
+func (node *Node) Global() string {
+	return fmt.Sprintf("%s_%s", node.Class, node.ID)
 }
 
 func (node *Node) In(predicate string) ([]*Node, error) {
