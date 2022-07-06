@@ -61,16 +61,23 @@ func NewApp(projectID string) *App {
 	}
 	app.UseCBOR()
 
+	// init graph
+	app.graph["_"] = graph.NewClient(app.Firestore, "default")
+
 	return app
 }
 
-func (app *App) Graph(dbName string) *graph.GraphClient {
-	app.Lock()
-	defer app.Unlock()
-	if app.graph[dbName] == nil {
-		app.graph[dbName] = graph.NewClient(app.Firestore, dbName)
+func (app *App) Graph(dbNames ...string) *graph.GraphClient {
+	if len(dbNames) > 0 {
+		dbName := dbNames[0]
+		app.Lock()
+		defer app.Unlock()
+		if app.graph[dbName] == nil {
+			app.graph[dbName] = graph.NewClient(app.Firestore, dbName)
+		}
+		return app.graph[dbName]
 	}
-	return app.graph[dbName]
+	return app.graph["_"]
 }
 
 func (app *App) TimeNow() time.Time {
