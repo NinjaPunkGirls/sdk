@@ -5,6 +5,7 @@ import (
 	"encoding/hex"
 	"log"
 	"os"
+	"sync"
 	"time"
 
 	"cloud.google.com/go/firestore"
@@ -13,6 +14,8 @@ import (
 	firebase "firebase.google.com/go"
 	"github.com/fxamacker/cbor/v2"
 	"github.com/gin-gonic/gin"
+
+	"github.com/ninjapunkgirls/sdk/graph"
 )
 
 type Route struct {
@@ -25,8 +28,10 @@ type App struct {
 	Gin       *gin.Engine
 	Storage   *storage.Client
 	Firestore *firestore.Client
+	graph     map[string]*graph.GraphClient
 	cbor      cbor.EncMode
 	routes    []Route
+	sync.RWMutex
 }
 
 func NewApp(projectID string) *App {
@@ -52,10 +57,20 @@ func NewApp(projectID string) *App {
 		Gin:       gin.Default(),
 		Storage:   storageClient,
 		Firestore: firestoreClient,
+		graph:     map[string]*graph.GraphClient{},
 	}
 	app.UseCBOR()
 
 	return app
+}
+
+func (app *App) Graph(dbName string) *graph.GraphClient {
+	app.Lock()
+	defer app.Unlock()
+	if app.graph[dbName] == nil {
+		app.graph[dbName] = graph.NewClient(app.Firestore, dbName)
+	}
+	return app.graph[dbName]
 }
 
 func (app *App) TimeNow() time.Time {
