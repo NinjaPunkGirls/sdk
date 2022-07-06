@@ -12,13 +12,13 @@ import (
 type GraphClient struct {
 	firestoreClient *firestore.Client
 	nodeCollection  *firestore.DocumentRef
-	edgeCollection  *firestore.CollectionRef
+	edgeCollection  *firestore.DocumentRef
 }
 
 func NewClient(f *firestore.Client, dbName string) *GraphClient {
 	return &GraphClient{
 		firestoreClient: f,
-		edgeCollection:  f.Collection("_edges").Doc(dbName).Collection("_edges"),
+		edgeCollection:  f.Collection("_edges").Doc(dbName),
 		nodeCollection:  f.Collection("_nodes").Doc(dbName),
 	}
 }
@@ -65,6 +65,6 @@ func (client *GraphClient) LinkNodes(in, out string, predicate string, data ...m
 		T: time.Now().UTC().Unix(),
 	}
 
-	_, err := client.edgeCollection.NewDoc().Set(context.Background(), edge)
+	_, err := client.edgeCollection.Collection(predicate).NewDoc().Set(context.Background(), edge)
 	return err
 }
