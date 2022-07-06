@@ -2,11 +2,9 @@ package graph
 
 import (
 	"context"
-	"log"
 	"time"
 
 	"cloud.google.com/go/firestore"
-	"google.golang.org/api/iterator"
 )
 
 type GraphClient struct {
@@ -22,51 +20,15 @@ func NewClient(f *firestore.Client, dbName string) *GraphClient {
 	}
 }
 
-type Node struct {
-	client *GraphClient
-	ID     string
-	Data   map[string]interface{}
-}
-
-func (node *Node) In(predicate string) ([]*Node, error) {
-	return node.traverse("O", predicate)
-}
-func (node *Node) Out(predicate string) ([]*Node, error) {
-	return node.traverse("I", predicate)
-}
-
-func (node *Node) traverse(direction, predicate string) ([]*Node, error) {
-
-	results := []*Node{}
-
-	iter := node.client.edgeCollection.Where("I", "==", node.ID).Where("P", "==", predicate).Documents(context.Background())
-	for {
-		doc, err := iter.Next()
-		if err == iterator.Done {
-			break
-		}
-		if err != nil {
-			return nil, err
-		}
-		node := &Node{}
-		if err := doc.DataTo(node); err != nil {
-			log.Println(err)
-			continue
-		}
-		results = append(
-			results,
-			node,
-		)
+func (client *GraphClient) NewNode(id, class string, data interface{}) (*Node, error) {
+	node := &Node{
+		ID:   id,
+		Type: class,
+		Data: data,
+		Time: time.Now().UTC().Unix(),
 	}
-
-	return results, nil
-}
-
-type Edge struct {
-	I, O string
-	P    string
-	X    interface{}
-	T    int64
+	_, err := client.nodeCollection.Doc(id).Set(context.Background(), node)
+	return node, err
 }
 
 func (client *GraphClient) GetNode(id string) (*Node, error) {
