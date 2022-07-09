@@ -33,7 +33,7 @@ func (client *GraphClient) SplitID(id string) (string, string, error) {
 	return s[0], s[1], nil
 }
 
-func (client *GraphClient) NewNode(id, class string, data interface{}) (*Node, error) {
+func (client *GraphClient) NewNode(class, id string, data interface{}) (*Node, error) {
 	node := &Node{
 		ID:    id,
 		Class: class,
