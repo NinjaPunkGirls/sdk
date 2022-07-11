@@ -3,9 +3,18 @@ package common
 import (
 	"bytes"
 	"encoding/ascii85"
+	"encoding/json"
 
 	"github.com/fxamacker/cbor/v2"
 )
+
+func (app *App) MarshalJSON(x interface{}) ([]byte, error) {
+	return json.Marshal(x)
+}
+
+func (app *App) UnmarshalJSON(b []byte, dst interface{}) error {
+	return json.Unmarshal(b, dst)
+}
 
 func (app *App) MarshalCBOR(x interface{}) ([]byte, error) {
 	return app.cbor.Marshal(x)
