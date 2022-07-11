@@ -13,6 +13,7 @@ type Node struct {
 	ID     string
 	Class  string
 	Data   interface{}
+	Auto   []string
 	Time   int64
 }
 

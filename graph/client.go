@@ -2,6 +2,7 @@ package graph
 
 import (
 	"context"
+	"encoding/json"
 	"errors"
 	"log"
 	"strings"
@@ -34,12 +35,42 @@ func (client *GraphClient) SplitID(id string) (string, string, error) {
 }
 
 func (client *GraphClient) NewNode(class, id string, data interface{}) (*Node, error) {
+
+	var payload map[string]interface{}
+
+	switch v := data.(type) {
+	case map[string]interface{}:
+		payload = v
+	default:
+		b, err := json.Marshal(data)
+		if err != nil {
+			return nil, err
+		}
+		if err := json.Unmarshal(b, &payload); err != nil {
+			return nil, err
+		}
+	}
+
+	autoKeys := []string{}
+	for _, value := range payload {
+		switch v := value.(type) {
+		case string:
+			for x := 0; x < 8; x++ {
+				if x > 2 && x < len(v) {
+					autoKeys = append(autoKeys, v[:x])
+				}
+			}
+		}
+	}
+
 	node := &Node{
 		ID:    id,
 		Class: class,
-		Data:  data,
+		Data:  payload,
+		Auto:  autoKeys,
 		Time:  time.Now().UTC().Unix(),
 	}
+
 	_, err := client.nodeCollection.Collection(class).Doc(id).Set(context.Background(), node)
 	return node, err
 }
