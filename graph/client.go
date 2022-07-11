@@ -4,12 +4,10 @@ import (
 	"context"
 	"encoding/json"
 	"errors"
-	"log"
 	"strings"
 	"time"
 
 	"cloud.google.com/go/firestore"
-	"google.golang.org/api/iterator"
 )
 
 type GraphClient struct {
@@ -86,45 +84,4 @@ func (client *GraphClient) GetNode(globalID string) (*Node, error) {
 	}
 	node := &Node{}
 	return node, doc.DataTo(node)
-}
-
-func (client *GraphClient) GetNodes(class string) ([]*Node, error) {
-
-	results := []*Node{}
-
-	iter := client.nodeCollection.Collection(class).OrderBy("Time", firestore.Desc).Documents(context.Background())
-	for {
-		doc, err := iter.Next()
-		if err == iterator.Done {
-			break
-		}
-		if err != nil {
-			return nil, err
-		}
-		node := &Node{}
-		if err := doc.DataTo(node); err != nil {
-			log.Println(err)
-			continue
-		}
-		results = append(
-			results,
-			node,
-		)
-	}
-
-	return results, nil
-}
-
-func (client *GraphClient) LinkNodes(in, out string, predicate string, data ...map[string]interface{}) error {
-
-	edge := &Edge{
-		I: in,
-		O: out,
-		P: predicate,
-		X: data,
-		T: time.Now().UTC().Unix(),
-	}
-
-	_, err := client.edgeCollection.Collection(predicate).NewDoc().Set(context.Background(), edge)
-	return err
 }
