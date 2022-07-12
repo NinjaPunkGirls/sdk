@@ -12,7 +12,8 @@ type Node struct {
 	client *GraphClient
 	ID     string
 	Class  string
-	Data   interface{}
+	Keys   []interface{}
+	Values []interface{}
 	Auto   []string
 	Time   int64
 }
