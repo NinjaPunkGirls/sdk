@@ -51,11 +51,22 @@ func (client *GraphClient) NewNode(class, id string, data interface{}) (*Node, e
 
 	autoKeys := []string{}
 	for _, value := range payload {
-		switch v := value.(type) {
-		case string:
-			for x := 0; x < 10; x++ {
-				if x > 2 && x < len(v) {
-					autoKeys = append(autoKeys, v[:x])
+		switch m := value.(type) {
+		case map[string]interface{}:
+			templateID, ok := m["t"].(string)
+			if !ok {
+				continue
+			}
+			if templateID == "primary" {
+				value, ok := m["v"].(string)
+				if !ok {
+					continue
+				}
+				for x := 3; x < 10; x++ {
+					if x == (len(value) - 1) {
+						break
+					}
+					autoKeys = append(autoKeys, value[:x])
 				}
 			}
 		}
