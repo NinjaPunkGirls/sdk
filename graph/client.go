@@ -65,7 +65,7 @@ func (client *GraphClient) NewNode(class, id string, data interface{}) (*Node, e
 				words := strings.Split(strings.Replace(strings.ToLower(value), "  ", " ", -1), " ")
 				for _, word := range words {
 					for x := 0; x < 13; x++ {
-						if x == len(word) {
+						if x > len(word) {
 							break
 						}
 						if x > 2 {
