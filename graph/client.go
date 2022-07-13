@@ -49,21 +49,12 @@ func (client *GraphClient) NewNode(class, id string, data interface{}) (*Node, e
 		}
 	}
 
-	var keys, values []string
-	for key, value := range payload {
-		b, err := json.Marshal(value)
-		if err != nil {
-			panic(err)
-		}
-		keys = append(keys, key)
-		values = append(values, string(b))
-	}
 	autoKeys := []string{}
 	for _, value := range payload {
 		switch v := value.(type) {
 		case string:
 			for x := 0; x < 10; x++ {
-				if x > 4 && x < len(v) {
+				if x > 2 && x < len(v) {
 					autoKeys = append(autoKeys, v[:x])
 				}
 			}
@@ -71,12 +62,11 @@ func (client *GraphClient) NewNode(class, id string, data interface{}) (*Node, e
 	}
 
 	node := &Node{
-		ID:     id,
-		Class:  class,
-		Keys:   keys,
-		Values: values,
-		Auto:   autoKeys,
-		Time:   time.Now().UTC().Unix(),
+		ID:    id,
+		Class: class,
+		Data:  payload,
+		Auto:  autoKeys,
+		Time:  time.Now().UTC().Unix(),
 	}
 
 	_, err := client.nodeCollection.Collection(class).Doc(id).Set(context.Background(), node)
