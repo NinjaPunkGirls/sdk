@@ -59,7 +59,7 @@ func (client *GraphClient) NewNode(class, id string, data interface{}) (*Node, e
 				words := strings.Split(strings.Replace(strings.ToLower(value), "  ", " ", -1), " ")
 				for _, word := range words {
 					for x := 0; x < len(word); x++ {
-						wordX := word[0:x]
+						wordX := word[0 : x+1]
 						if len(wordX) > 3 {
 							autoKeys = append(autoKeys, wordX)
 						}
