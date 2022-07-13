@@ -62,11 +62,14 @@ func (client *GraphClient) NewNode(class, id string, data interface{}) (*Node, e
 				if !ok {
 					continue
 				}
-				for x := 3; x < 10; x++ {
-					if x == (len(value) - 1) {
-						break
+				values := strings.Split(strings.Replace(strings.ToLower(value), "  ", " ", -1), " ")
+				for _, word := range values {
+					for x := 3; x < 10; x++ {
+						if x == (len(word) - 1) {
+							break
+						}
+						autoKeys = append(autoKeys, word[:x])
 					}
-					autoKeys = append(autoKeys, value[:x])
 				}
 			}
 		}
