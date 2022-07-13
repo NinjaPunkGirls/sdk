@@ -51,12 +51,12 @@ func (client *GraphClient) NewNode(class, id string, data interface{}) (*Node, e
 
 	var keys, values []string
 	for key, value := range payload {
-		v, ok := value.(string)
-		if !ok {
-			continue
+		b, err := json.Marshal(value)
+		if err != nil {
+			panic(err)
 		}
 		keys = append(keys, key)
-		values = append(values, v)
+		values = append(values, string(b))
 	}
 	autoKeys := []string{}
 	for _, value := range payload {
