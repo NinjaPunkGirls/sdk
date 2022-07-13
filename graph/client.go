@@ -35,22 +35,16 @@ func (client *GraphClient) SplitID(id string) (string, string, error) {
 func (client *GraphClient) NewNode(class, id string, data interface{}) (*Node, error) {
 
 	var payload map[string]interface{}
-
-	switch v := data.(type) {
-	case map[string]interface{}:
-		payload = v
-	default:
-		b, err := json.Marshal(data)
-		if err != nil {
-			return nil, err
-		}
-		if err := json.Unmarshal(b, &payload); err != nil {
-			return nil, err
-		}
+	b, err := json.Marshal(data)
+	if err != nil {
+		return nil, err
+	}
+	if err := json.Unmarshal(b, &payload); err != nil {
+		return nil, err
 	}
 
 	autoKeys := []string{}
-	for _, value := range payload {
+	for _, value := range payload["fields"].([]interface{}) {
 		switch m := value.(type) {
 		case map[string]interface{}:
 			templateID, ok := m["t"].(string)
@@ -83,7 +77,7 @@ func (client *GraphClient) NewNode(class, id string, data interface{}) (*Node, e
 		Time:  time.Now().UTC().Unix(),
 	}
 
-	_, err := client.nodeCollection.Collection(class).Doc(id).Set(context.Background(), node)
+	_, err = client.nodeCollection.Collection(class).Doc(id).Set(context.Background(), node)
 	return node, err
 }
 
