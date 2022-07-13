@@ -68,8 +68,9 @@ func (client *GraphClient) NewNode(class, id string, data interface{}) (*Node, e
 						if x > len(word) {
 							break
 						}
-						if x > 2 {
-							autoKeys = append(autoKeys, word[:x])
+						wordX := word[:x]
+						if len(wordX) > 3 {
+							autoKeys = append(autoKeys, wordX)
 						}
 					}
 				}
