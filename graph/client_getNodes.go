@@ -2,15 +2,14 @@ package graph
 
 import (
 	"context"
-	"log"
 
 	"cloud.google.com/go/firestore"
 	"google.golang.org/api/iterator"
 )
 
-func (client *GraphClient) GetNodes(class string) ([]*Node, error) {
+func (client *GraphClient) GetNodes(class string) ([]string, error) {
 
-	results := []*Node{}
+	results := []string{}
 
 	iter := client.nodeCollection.Collection(class).OrderBy("Time", firestore.Desc).Select().Documents(context.Background())
 	for {
@@ -21,14 +20,10 @@ func (client *GraphClient) GetNodes(class string) ([]*Node, error) {
 		if err != nil {
 			return nil, err
 		}
-		node := &Node{}
-		if err := doc.DataTo(node); err != nil {
-			log.Println(err)
-			continue
-		}
+		var id string = doc.Ref.ID
 		results = append(
 			results,
-			node,
+			id,
 		)
 	}
 
