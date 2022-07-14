@@ -2,7 +2,6 @@ package graph
 
 import (
 	"context"
-	"encoding/json"
 	"errors"
 	"strings"
 	"time"
@@ -32,52 +31,11 @@ func (client *GraphClient) SplitID(id string) (string, string, error) {
 	return s[0], s[1], nil
 }
 
-func (client *GraphClient) NewNode(class, id string, data interface{}) (*Node, error) {
+func (client *GraphClient) NewNode(node *Node) (*Node, error) {
 
-	var payload map[string]interface{}
-	b, err := json.Marshal(data)
-	if err != nil {
-		return nil, err
-	}
-	if err := json.Unmarshal(b, &payload); err != nil {
-		return nil, err
-	}
+	node.Time = time.Now().UTC().Unix()
 
-	autoKeys := []string{}
-	for _, value := range payload["fields"].([]interface{}) {
-		switch m := value.(type) {
-		case map[string]interface{}:
-			templateID, ok := m["t"].(string)
-			if !ok {
-				continue
-			}
-			if templateID == "primary" {
-				value, ok := m["v"].(string)
-				if !ok {
-					continue
-				}
-				words := strings.Split(strings.Replace(strings.ToLower(value), "  ", " ", -1), " ")
-				for _, word := range words {
-					for x := 0; x < len(word); x++ {
-						wordX := word[0 : x+1]
-						if len(wordX) > 3 {
-							autoKeys = append(autoKeys, wordX)
-						}
-					}
-				}
-			}
-		}
-	}
-
-	node := &Node{
-		ID:    id,
-		Class: class,
-		Data:  payload,
-		Auto:  autoKeys,
-		Time:  time.Now().UTC().Unix(),
-	}
-
-	_, err = client.nodeCollection.Collection(class).Doc(id).Set(context.Background(), node)
+	_, err := client.nodeCollection.Collection(node.Class).Doc(node.ID).Set(context.Background(), node)
 	return node, err
 }
 
