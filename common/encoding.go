@@ -35,3 +35,15 @@ func (app *App) CompactSerial(x interface{}) (string, error) {
 	enc.Close()
 	return string(buf.Bytes()), nil
 }
+
+func (app *App) ExpandSerial(x interface{}) (string, error) {
+	b, err := app.MarshalCBOR(x)
+	if err != nil {
+		return "", nil
+	}
+	buf := bytes.NewBuffer(nil)
+	enc := ascii85.NewEncoder(buf)
+	enc.Write(b)
+	enc.Close()
+	return string(buf.Bytes()), nil
+}
