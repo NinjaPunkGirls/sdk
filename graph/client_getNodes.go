@@ -12,7 +12,7 @@ func (client *GraphClient) GetNodes(class string) ([]*Node, error) {
 
 	results := []*Node{}
 
-	iter := client.nodeCollection.Collection(class).OrderBy("Time", firestore.Desc).Documents(context.Background())
+	iter := client.nodeCollection.Collection(class).OrderBy("Time", firestore.Desc).Select().Documents(context.Background())
 	for {
 		doc, err := iter.Next()
 		if err == iterator.Done {
