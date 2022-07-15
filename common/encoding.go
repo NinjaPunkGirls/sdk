@@ -42,7 +42,7 @@ func (app *App) ExpandSerial(serial []byte) (interface{}, error) {
 	if err != nil {
 		return nil, err
 	}
-	x := new(interface{})
+	var x interface{}
 	if err := app.UnmarshalCBOR(out[:d], &x); err != nil {
 		return nil, err
 	}
