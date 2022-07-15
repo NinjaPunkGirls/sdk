@@ -49,3 +49,31 @@ func TestCBOR(t *testing.T) {
 
 	assert.Equal(me, you)
 }
+
+func TestCBORHelpers(t *testing.T) {
+	assert := assert.New(t)
+
+	app := &App{}
+	app.UseCBOR()
+
+	me := &testStruct{
+		Name: "John Doe",
+		Age:  32323,
+	}
+
+	enc, err := app.CompactSerial(me)
+	if err != nil {
+		t.Fatal(err)
+		return
+	}
+
+	log.Println(enc)
+
+	you := &testStruct{}
+	if err = app.ExpandSerial([]byte(enc), you); err != nil {
+		t.Fatal(err)
+		return
+	}
+
+	assert.Equal(me, you)
+}
