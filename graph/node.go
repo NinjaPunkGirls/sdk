@@ -12,6 +12,8 @@ type Node struct {
 	client *GraphClient
 	ID     string
 	Class  string
+	// parent is the ID but a slice after split with "_"
+	Parent []string
 	Data   interface{}
 	Auto   []string
 	Time   int64
