@@ -31,7 +31,7 @@ func (node *Node) Out(predicate string) ([]string, error) {
 
 func (node *Node) traverse(direction, predicate string) ([]string, error) {
 
-	var opposite string
+	var opposite string = "I"
 	if direction == "I" {
 		opposite = "O"
 	}
