@@ -3,7 +3,6 @@ package graph
 import (
 	"context"
 	"fmt"
-	"log"
 
 	"google.golang.org/api/iterator"
 )
@@ -23,18 +22,18 @@ func (node *Node) Global() string {
 	return fmt.Sprintf("%s_%s", node.Class, node.ID)
 }
 
-func (node *Node) In(predicate string) ([]*Node, error) {
+func (node *Node) In(predicate string) ([]string, error) {
 	return node.traverse("O", predicate)
 }
-func (node *Node) Out(predicate string) ([]*Node, error) {
+func (node *Node) Out(predicate string) ([]string, error) {
 	return node.traverse("I", predicate)
 }
 
-func (node *Node) traverse(direction, predicate string) ([]*Node, error) {
+func (node *Node) traverse(direction, predicate string) ([]string, error) {
 
-	results := []*Node{}
+	results := []string{}
 
-	iter := node.client.edgeCollection.Collection(predicate).Where(direction, "==", node.ID).Documents(context.Background())
+	iter := node.client.edgeCollection.Collection(predicate).Where(direction, "==", node.ID).Select().Documents(context.Background())
 	for {
 		doc, err := iter.Next()
 		if err == iterator.Done {
@@ -43,14 +42,9 @@ func (node *Node) traverse(direction, predicate string) ([]*Node, error) {
 		if err != nil {
 			return nil, err
 		}
-		node := &Node{}
-		if err := doc.DataTo(node); err != nil {
-			log.Println(err)
-			continue
-		}
 		results = append(
 			results,
-			node,
+			doc.Ref.ID,
 		)
 	}
 
