@@ -31,9 +31,14 @@ func (node *Node) Out(predicate string) ([]string, error) {
 
 func (node *Node) traverse(direction, predicate string) ([]string, error) {
 
+	var opposite string
+	if direction == "I" {
+		opposite = "O"
+	}
+
 	results := []string{}
 
-	iter := node.client.edgeCollection.Collection(predicate).Where(direction, "==", node.ID).Select().Documents(context.Background())
+	iter := node.client.edgeCollection.Collection(predicate).Where(direction, "==", node.ID).Select(opposite).Documents(context.Background())
 	for {
 		doc, err := iter.Next()
 		if err == iterator.Done {
@@ -42,9 +47,13 @@ func (node *Node) traverse(direction, predicate string) ([]string, error) {
 		if err != nil {
 			return nil, err
 		}
+		m := map[string]interface{}{}
+		if err := doc.DataTo(&m); err != nil {
+			return nil, err
+		}
 		results = append(
 			results,
-			doc.Ref.ID,
+			m[opposite].(string),
 		)
 	}
 
