@@ -49,5 +49,9 @@ func (client *GraphClient) GetNode(globalID string) (*Node, error) {
 		return nil, err
 	}
 	node := &Node{}
-	return node, doc.DataTo(node)
+	if err := doc.DataTo(node); err != nil {
+		return nil, err
+	}
+	node.client = client
+	return node, nil
 }
