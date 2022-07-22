@@ -40,7 +40,7 @@ func (node *Node) traverse(direction, predicate string) ([]string, error) {
 
 	println(predicate, direction, "==", node.ID, opposite)
 
-	iter := node.client.edgeCollection.Collection(predicate).Where(direction, "==", node.ID).Select(opposite).Documents(context.Background())
+	iter := node.client.edgeCollection.Collection(predicate).Where(direction, "==", node.Global()).Select(opposite).Documents(context.Background())
 	for {
 		doc, err := iter.Next()
 		if err == iterator.Done {
