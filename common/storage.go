@@ -2,6 +2,7 @@ package common
 
 import (
 	"context"
+	"encoding/json"
 	"fmt"
 	"io"
 
@@ -14,6 +15,14 @@ func (app *App) GetBucket(bucketName string) (*storage.BucketHandle, error) {
 		return nil, err
 	}
 	return bucket, nil
+}
+
+func (app *App) GetObjectAndUnmarshal(bucket *storage.BucketHandle, objectName string, dst interface{}) error {
+	b, err := app.GetObject(bucket, objectName)
+	if err != nil {
+		return err
+	}
+	return json.Unmarshal(b, dst)
 }
 
 func (app *App) GetObject(bucket *storage.BucketHandle, objectName string) ([]byte, error) {
