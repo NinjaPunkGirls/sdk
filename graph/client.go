@@ -33,6 +33,15 @@ func (client *GraphClient) SplitID(id string) (string, string, error) {
 
 func (client *GraphClient) NewNode(node *Node) (*Node, error) {
 
+	filter := map[string]bool{}
+	for _, item := range node.Auto {
+		filter[item] = true
+	}
+	node.Auto = []string{}
+	for item, _ := range filter {
+		node.Auto = append(node.Auto, item)
+	}
+
 	node.Time = time.Now().UTC().Unix()
 
 	_, err := client.nodeCollection.Collection(node.Class).Doc(node.ID).Set(context.Background(), node)
