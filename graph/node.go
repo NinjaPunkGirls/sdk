@@ -12,9 +12,9 @@ type Node struct {
 	ID     string
 	Class  string
 	// parent is the ID but a slice after split with "_"
-	Parent []string    `firestore:"Parent,omitempty"`
-	Data   interface{} `firestore:"Data,omitempty"`
-	Auto   []string    `firestore:"Auto,omitempty"`
+	Parent []string            `firestore:"Parent,omitempty"`
+	Data   interface{}         `firestore:"Data,omitempty"`
+	Auto   map[string][]string `firestore:"Auto,omitempty"`
 	Time   int64
 }
 
