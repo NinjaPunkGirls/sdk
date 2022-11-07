@@ -50,7 +50,7 @@ func (client *GraphClient) NewNode(node *Node) (*Node, error) {
 		return nil, err
 	}
 
-	parent := strings.Join(node.Parent, "_")
+	parent := node.Parent[1]
 
 	ps := &PredicateStat{}
 	if doc, err := client.nodeCollection.Collection(node.Class).Doc(parent).Collection("p").Doc(node.Class).Get(context.Background()); err != nil {
