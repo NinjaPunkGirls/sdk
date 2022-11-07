@@ -46,7 +46,12 @@ func (client *GraphClient) NewNode(node *Node) (*Node, error) {
 
 	node.Time = time.Now().UTC().Unix()
 
-	_, err := client.nodeCollection.Collection(node.Class).Doc(node.ID).Set(context.Background(), node)
+	if _, err := client.nodeCollection.Collection(node.Class).Doc(node.ID).Set(context.Background(), node); err != nil {
+		return nil, err
+	}
+
+	_, err := client.nodeCollection.Collection(node.Class).Doc(node.Parent[0]).Collection("p").Doc(node.Class).Set(context.Background(), nil)
+
 	return node, err
 }
 
