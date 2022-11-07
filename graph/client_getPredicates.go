@@ -6,11 +6,16 @@ import (
 	"google.golang.org/api/iterator"
 )
 
-func (client *GraphClient) GetPredicates() ([]string, error) {
+func (client *GraphClient) GetPredicates(globalID string) ([]*PredicateStat, error) {
 
-	results := []string{}
+	class, id, err := client.SplitID(globalID)
+	if err != nil {
+		return nil, err
+	}
 
-	iter := client.edgeCollection.Collections(context.Background())
+	results := []*PredicateStat{}
+
+	iter := client.nodeCollection.Collection(class).Doc(id).Collection("p").Documents(context.Background())
 	for {
 		doc, err := iter.Next()
 		if err == iterator.Done {
@@ -19,9 +24,13 @@ func (client *GraphClient) GetPredicates() ([]string, error) {
 		if err != nil {
 			return nil, err
 		}
+		ps := &PredicateStat{}
+		if err := doc.DataTo(ps); err != nil {
+			return nil, err
+		}
 		results = append(
 			results,
-			doc.ID,
+			ps,
 		)
 	}
 

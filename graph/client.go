@@ -50,7 +50,18 @@ func (client *GraphClient) NewNode(node *Node) (*Node, error) {
 		return nil, err
 	}
 
-	_, err := client.nodeCollection.Collection(node.Class).Doc(node.Parent[0]).Collection("p").Doc(node.Class).Set(context.Background(), nil)
+	parent := node.Parent[0]
+
+	ps := &PredicateStat{}
+	if doc, err := client.nodeCollection.Collection(node.Class).Doc(parent).Collection("p").Doc(node.Class).Get(context.Background()); err != nil {
+		if err := doc.DataTo(ps); err == nil {
+			return nil, err
+		}
+	}
+	// increment the counter for this predicate
+	ps.Value++
+	// update the stat document
+	_, err := client.nodeCollection.Collection(node.Class).Doc(parent).Collection("p").Doc(node.Class).Set(context.Background(), ps)
 
 	return node, err
 }
