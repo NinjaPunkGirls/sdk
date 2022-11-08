@@ -61,6 +61,7 @@ func (client *GraphClient) NewNode(node *Node) (*Node, error) {
 	}
 	// increment the counter for this predicate
 	ps.Value++
+	ps.Key = node.Class
 	// update the stat document
 	_, err := client.nodeCollection.Collection(parentClass).Doc(parent).Collection("p").Doc(node.Class).Set(context.Background(), ps)
 

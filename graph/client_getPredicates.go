@@ -28,7 +28,6 @@ func (client *GraphClient) GetPredicates(globalID string) ([]*PredicateStat, err
 		if err := doc.DataTo(ps); err != nil {
 			return nil, err
 		}
-		ps.Key = id
 		results = append(
 			results,
 			ps,
