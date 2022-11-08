@@ -50,22 +50,26 @@ func (client *GraphClient) NewNode(node *Node) (*Node, error) {
 		return nil, err
 	}
 
-	parentClass := node.Parent[0]
-	parent := node.Parent[1]
+	if len(node.Parent) == 2 {
+		parentClass := node.Parent[0]
+		parent := node.Parent[1]
 
-	ps := &PredicateStat{}
-	if doc, err := client.nodeCollection.Collection(parentClass).Doc(parent).Collection("p").Doc(node.Class).Get(context.Background()); err != nil {
-		if err := doc.DataTo(ps); err == nil {
+		ps := &PredicateStat{}
+		if doc, err := client.nodeCollection.Collection(parentClass).Doc(parent).Collection("p").Doc(node.Class).Get(context.Background()); err != nil {
+			if err := doc.DataTo(ps); err == nil {
+				return nil, err
+			}
+		}
+		// increment the counter for this predicate
+		ps.Value++
+		ps.Key = node.Class
+		// update the stat document
+		if _, err := client.nodeCollection.Collection(parentClass).Doc(parent).Collection("p").Doc(node.Class).Set(context.Background(), ps); err != nil {
 			return nil, err
 		}
 	}
-	// increment the counter for this predicate
-	ps.Value++
-	ps.Key = node.Class
-	// update the stat document
-	_, err := client.nodeCollection.Collection(parentClass).Doc(parent).Collection("p").Doc(node.Class).Set(context.Background(), ps)
 
-	return node, err
+	return node, nil
 }
 
 func (client *GraphClient) GetNode(globalID string) (*Node, error) {
