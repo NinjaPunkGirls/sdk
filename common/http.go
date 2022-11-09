@@ -27,18 +27,20 @@ func (app *App) GetJSON(url string, dst interface{}) error {
 
 func (app *App) PostJSON(url string, src, dst interface{}) error {
 
-	b, err := json.Marshal(src)
-	if err != nil {
-		return err
+	var buf *bytes.Buffer
+	if src != nil {
+		b, err := json.Marshal(src)
+		if err != nil {
+			return err
+		}
+		buf = bytes.NewBuffer(b)
 	}
-
-	buf := bytes.NewBuffer(b)
 
 	resp, err := http.Post(url, "application/json", buf)
 	if err != nil {
 		return err
 	}
-	b, err = io.ReadAll(resp.Body)
+	b, err := io.ReadAll(resp.Body)
 	defer resp.Body.Close()
 	if err != nil {
 		return err
