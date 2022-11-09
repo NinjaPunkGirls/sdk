@@ -16,8 +16,10 @@ func (app *App) GetJSON(url string, dst interface{}) error {
 	if err != nil {
 		return err
 	}
-	if err := json.Unmarshal(b, dst); err != nil {
-		return err
+	if dst != nil {
+		if err := json.Unmarshal(b, dst); err != nil {
+			return err
+		}
 	}
 	return nil
 }
