@@ -31,6 +31,10 @@ func (node *Node) Out(predicate string) ([]string, error) {
 }
 
 func (node *Node) traverse(direction, predicate string) ([]string, error) {
+	return node.traverseDirection(direction, predicate, false)
+}
+
+func (node *Node) traverseDirection(direction, predicate string, ascending bool) ([]string, error) {
 
 	var opposite string = "I"
 	if direction == "I" {
@@ -41,7 +45,11 @@ func (node *Node) traverse(direction, predicate string) ([]string, error) {
 
 	println(predicate, direction, "==", node.ID, opposite)
 
-	iter := node.client.edgeCollection.Collection(predicate).Where(direction, "==", node.Global()).Select(opposite).OrderBy("Time", firestore.Desc).Documents(context.Background())
+	order := firestore.Asc
+	if !ascending {
+		order = firestore.Desc
+	}
+	iter := node.client.edgeCollection.Collection(predicate).Where(direction, "==", node.Global()).Select(opposite).OrderBy("Time", order).Documents(context.Background())
 	for {
 		doc, err := iter.Next()
 		if err == iterator.Done {
