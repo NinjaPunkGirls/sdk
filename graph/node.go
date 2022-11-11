@@ -4,7 +4,6 @@ import (
 	"context"
 	"fmt"
 
-	"cloud.google.com/go/firestore"
 	"google.golang.org/api/iterator"
 )
 
@@ -31,10 +30,6 @@ func (node *Node) Out(predicate string) ([]string, error) {
 }
 
 func (node *Node) traverse(direction, predicate string) ([]string, error) {
-	return node.traverseDirection(direction, predicate, false)
-}
-
-func (node *Node) traverseDirection(direction, predicate string, ascending bool) ([]string, error) {
 
 	var opposite string = "I"
 	if direction == "I" {
@@ -45,11 +40,7 @@ func (node *Node) traverseDirection(direction, predicate string, ascending bool)
 
 	println(predicate, direction, "==", node.ID, opposite)
 
-	order := firestore.Asc
-	if !ascending {
-		order = firestore.Desc
-	}
-	iter := node.client.edgeCollection.Collection(predicate).Where(direction, "==", node.Global()).Select(opposite).OrderBy("Time", order).Documents(context.Background())
+	iter := node.client.edgeCollection.Collection(predicate).Where(direction, "==", node.Global()).Select(opposite).Documents(context.Background())
 	for {
 		doc, err := iter.Next()
 		if err == iterator.Done {
