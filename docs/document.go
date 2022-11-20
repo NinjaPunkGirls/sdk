@@ -7,6 +7,8 @@ import (
 	"strconv"
 	"os"
 	"fmt"
+
+	"github.com/ninjapunkgirls/sdk/cloudfunc"
 )
 
 
@@ -20,7 +22,7 @@ type Document struct {
 }
 
 func (self *Document) Serialise() (string, error) {
-	s, err := self.client.CompactSerial(self)
+	s, err := cloudfunc.CompactSerial(self)
 	if err != nil {
 		return "", err
 	}

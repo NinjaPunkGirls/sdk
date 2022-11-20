@@ -4,8 +4,6 @@ import (
 	"crypto/sha1"
 	"time"
 	"fmt"
-
-	"github.com/ninjapunkgirls/sdk/common"
 )
 
 func Hash(b []byte) []byte {
@@ -15,15 +13,10 @@ func Hash(b []byte) []byte {
 }
 
 type Client struct {
-	*common.App
 }
 
 func NewClient() *Client {
-	app := common.NewApp("zoo-dev-01")
-	app.UseCBOR()
-	return &Client{
-		app,
-	}
+	return &Client{}
 }
 
 func (client *Client) NewDocument(where Place, class string, data interface{}) *Document {
