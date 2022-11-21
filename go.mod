@@ -9,7 +9,6 @@ require (
 	github.com/fxamacker/cbor/v2 v2.4.0
 	github.com/gin-gonic/gin v1.7.7
 	github.com/golangdaddy/relysia-client v0.0.0-20220608113925-59b423d0afad
-	github.com/json-iterator/go v1.1.9
 	github.com/kr/pretty v0.3.0
 	github.com/stretchr/testify v1.7.0
 	google.golang.org/api v0.73.0
@@ -28,6 +27,7 @@ require (
 	github.com/golang/protobuf v1.5.2 // indirect
 	github.com/google/go-cmp v0.5.7 // indirect
 	github.com/googleapis/gax-go/v2 v2.1.1 // indirect
+	github.com/json-iterator/go v1.1.9 // indirect
 	github.com/kr/text v0.2.0 // indirect
 	github.com/leodido/go-urn v1.2.0 // indirect
 	github.com/mattn/go-isatty v0.0.12 // indirect
