@@ -75,34 +75,17 @@ func (place *Place) ParentHashes() []string {
 	return hashes
 }
 
-func NewPlace(input PlaceInput) Place {
+func NewPlace(input string) Place {
 
-	values := []string{
-		input.Continent,
-		input.Ocean,
-		input.Union,
-		input.Country,
-		input.CountyOrState,
-		input.District,
-		input.TownOrCity,
-		input.Borough,
-		input.Road,
-		input.Building,
-		input.Apartment,
-	}
+	ss := strings.Split(input, ", ")
+    last := len(ss) - 1
+    for i := 0; i < len(ss)/2; i++ {
+        ss[i], ss[last-i] = ss[last-i], ss[i]
+    }
+
 
 	place := Place{
-		Details: make([]string, len(values)),
-	}
-	for n, v := range values {
-		if len(v) > 0 {
-			place.Details[n] = v
-		}
-		/*
-			if place.Details[n] != nil {
-				println(n, *place.Details[n])
-			}
-		*/
+		Details: ss,
 	}
 
 	place.ID = place.ToID()
