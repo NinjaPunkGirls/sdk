@@ -94,6 +94,8 @@ func NewPlace(input string) Place {
 }
 
 func (self Place) URI() string {
+
 	hashes := self.ParentHashes()
+
 	return "where/" + strings.Join(hashes, "/")
 }
