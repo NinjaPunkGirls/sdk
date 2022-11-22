@@ -4,6 +4,9 @@ import (
 	"crypto/sha1"
 	"time"
 	"fmt"
+	"context"
+
+	"cloud.google.com/go/storage"
 )
 
 func Hash(b []byte) []byte {
@@ -13,10 +16,18 @@ func Hash(b []byte) []byte {
 }
 
 type Client struct {
+	Storage *storage.Client
 }
 
 func NewClient() *Client {
-	return &Client{}
+
+	client, err := storage.NewClient(context.Background())
+	if err != nil {
+		panic(err)
+	}
+	return &Client{
+		client,
+	}
 }
 
 func (client *Client) NewDocument(where Place, class string, data interface{}) *Document {
