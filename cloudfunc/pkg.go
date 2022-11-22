@@ -7,6 +7,7 @@ import (
 	"net/http"
 	"log"
 	"fmt"
+	"strings"
 )
 
 func HttpError(w http.ResponseWriter, err error, status int) {
@@ -38,4 +39,8 @@ func ServeJSON(w http.ResponseWriter, src interface{}) error {
 	}
 	w.Write(b)
 	return nil
+}
+
+func ParamValue(r *http.Request, pos int) string {
+	return strings.Split(r.URL.Path, "/")[pos]
 }
