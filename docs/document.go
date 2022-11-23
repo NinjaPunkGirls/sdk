@@ -34,7 +34,7 @@ func (self *Document) ID() string {
 	if err != nil {
 		panic(err)
 	}
-	return hex.EncodeToString([]byte(serial))
+	return hex.EncodeToString(Hash([]byte(serial)))
 }
 
 func (self *Document) Save() error {
