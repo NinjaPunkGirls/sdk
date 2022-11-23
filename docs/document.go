@@ -29,6 +29,14 @@ func (self *Document) Serialise() (string, error) {
 	return s, nil
 }
 
+func (self *Document) ID() string {
+	serial, err := self.Serialise()
+	if err != nil {
+		panic(err)
+	}
+	return hex.EncodeToString([]byte(serial))
+}
+
 func (self *Document) Save() error {
 
 	s, err := self.Serialise()
