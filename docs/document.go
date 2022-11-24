@@ -79,5 +79,5 @@ func (self *Document) TimePrefix() string {
     }
     t := time.Unix(i, 0)
 
-	return fmt.Sprintf("%d/%02d/%02d/%02d/%02d", t.Year(), int(t.Month()), t.Day(), t.Hour(), t.Minute())
+	return fmt.Sprintf("%d/%02d/%02d/%02d/%02d", t.Year(), int(t.Month()), t.Day(), t.Hour(), t.Minute(), t.Second())
 }
