@@ -30,6 +30,13 @@ func NewClient() *Client {
 	}
 }
 
+func (client *Client) EmptyDocument() *Document {
+	doc := &Document{
+		client: client,
+	}
+	return doc
+}
+
 func (client *Client) NewDocument(where Place, class string, data interface{}) *Document {
 	doc := &Document{
 		client: client,
