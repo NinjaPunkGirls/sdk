@@ -2,23 +2,22 @@ package docs
 
 import (
 	"encoding/hex"
-	"path"
-	"time"
-	"strconv"
-	"os"
 	"fmt"
+	"os"
+	"path"
+	"strconv"
+	"time"
 
 	"github.com/ninjapunkgirls/sdk/cloudfunc"
 )
 
-
 type Document struct {
 	client *Client
-	Time  string
-	Place Place
+	Time   string
+	Place  Place
 	Parent string
-	Class string
-	Data  interface{}
+	Class  string
+	Data   interface{}
 }
 
 func (self *Document) Serialise() (string, error) {
@@ -65,19 +64,18 @@ func (self *Document) Save() error {
 		if err != nil {
 			panic(err)
 		}
-	
+
 	}
 	return nil
 }
 
-
 func (self *Document) TimePrefix() string {
 
 	i, err := strconv.ParseInt(self.Time, 10, 64)
-    if err != nil {
-        panic(err)
-    }
-    t := time.Unix(i, 0)
+	if err != nil {
+		panic(err)
+	}
+	t := time.Unix(i, 0)
 
-	return fmt.Sprintf("%d/%02d/%02d/%02d/%02d", t.Year(), int(t.Month()), t.Day(), t.Hour(), t.Minute(), t.Second())
+	return fmt.Sprintf("%d/%02d/%02d/%02d/%02d/%02d", t.Year(), int(t.Month()), t.Day(), t.Hour(), t.Minute(), t.Second())
 }
