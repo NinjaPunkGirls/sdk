@@ -28,9 +28,9 @@ func TestPlace(t *testing.T) {
 func TestPlaceParenthashes(t *testing.T) {
 	assert := assert.New(t)
 
-	input1 := "UK, Kent, Margate, CT9, d, Cllegeg, shsho, sgsisg, sigsgi"
+	input1 := "43, Reading Street, Broadstoars, Kend, UK, ENgladk, World, Universe, Stuff"
 
-	input2 := "UK, Kent, Margate, CT9, d, bllegeg, shsho, sgsisg, sigsgi"
+	input2 := "43, Reading Street, Broadstoars, Kend, UN, ENgladk, World, Universe, Stuff"
 
 	p := NewPlace(input1)
 	q := NewPlace(input2)
