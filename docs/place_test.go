@@ -10,12 +10,8 @@ import (
 
 func TestPlace(t *testing.T) {
 
-	input := ExamplePlace()
-
-	pretty.Println(input)
-
-	p := NewPlace(input)
-	q := NewPlace(PlaceInput{})
+	p := NewPlace("UK")
+	q := NewPlace("")
 
 	println(p.ID)
 	println(q.ID)
@@ -32,10 +28,9 @@ func TestPlace(t *testing.T) {
 func TestPlaceParenthashes(t *testing.T) {
 	assert := assert.New(t)
 
-	input1 := ExamplePlace()
-	input1.CountyOrState = "SUSSEX"
+	input1 := "UK, Kent, Margate, CT9, d, Cllegeg, shsho, sgsisg, sigsgi"
 
-	input2 := ExamplePlace()
+	input2 := "UK, Kent, Margate, CT9, d, bllegeg, shsho, sgsisg, sigsgi"
 
 	p := NewPlace(input1)
 	q := NewPlace(input2)

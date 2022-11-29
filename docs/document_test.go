@@ -3,15 +3,13 @@ package docs
 import (
 	"testing"
 
-	//"github.com/kr/pretty"
-
 	"github.com/stretchr/testify/assert"
 )
 
 func TestDocument(t *testing.T) {
 	assert := assert.New(t)
 
-	where := NewPlace(ExamplePlace())
+	where := NewPlace("FR")
 
 	what := map[string]interface{}{
 		"hello": "world",

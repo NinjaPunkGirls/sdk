@@ -12,12 +12,13 @@ import (
 )
 
 type Document struct {
-	client *Client
-	Time   string
-	Place  Place
-	Parent string
-	Class  string
-	Data   interface{}
+	client   *Client
+	Time     string
+	Lat, Lng float64
+	Place    Place
+	Parent   string
+	Class    string
+	Data     interface{}
 }
 
 func (self *Document) Serialise() (string, error) {
