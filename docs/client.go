@@ -1,32 +1,50 @@
 package docs
 
 import (
-	"crypto/sha1"
-	"time"
-	"fmt"
 	"context"
+	"crypto/sha1"
+	"fmt"
+	"log"
+	"time"
+
+	"cloud.google.com/go/firestore"
 
 	"cloud.google.com/go/storage"
+	firebase "firebase.google.com/go"
 )
 
 func Hash(b []byte) []byte {
 	h := sha1.New()
-	h.Write(b)	
+	h.Write(b)
 	return h.Sum(nil)
 }
 
 type Client struct {
-	Storage *storage.Client
+	Storage   *storage.Client
+	Firestore *firestore.Client
 }
 
-func NewClient() *Client {
+func NewClient(projectID string) *Client {
 
-	client, err := storage.NewClient(context.Background())
+	ctx := context.Background()
+	conf := &firebase.Config{ProjectID: projectID}
+	fapp, err := firebase.NewApp(ctx, conf)
+	if err != nil {
+		log.Fatalln(err)
+	}
+
+	firestoreClient, err := fapp.Firestore(ctx)
+	if err != nil {
+		log.Fatalln(err)
+	}
+
+	storageClient, err := storage.NewClient(context.Background())
 	if err != nil {
 		panic(err)
 	}
 	return &Client{
-		client,
+		Storage:   storageClient,
+		Firestore: firestoreClient,
 	}
 }
 
@@ -40,14 +58,13 @@ func (client *Client) EmptyDocument() *Document {
 func (client *Client) NewDocument(where Place, class string, data interface{}) *Document {
 	doc := &Document{
 		client: client,
-		Class: class,
-		Time:  fmt.Sprintf("%d", time.Now().UTC().Unix()),
-		Place: where,
-		Data: data,
+		Class:  class,
+		Time:   fmt.Sprintf("%d", time.Now().UTC().Unix()),
+		Place:  where,
+		Data:   data,
 	}
 	return doc
 }
-
 
 /*
 func (doc *Document) URI() string {
